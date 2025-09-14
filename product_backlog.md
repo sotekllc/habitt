@@ -30,6 +30,7 @@ A backlog list of all the user stories that need to be implemented for the habit
         As a user, I want to delete existing habits so that I can keep my habits up to date.
     Personalize a habit with color
         As a user, I want to assign a specific color to each habit to make it personal to me.
+    Create API endpoint for reading/writing Habits
 
 4. Homepage (an overview of the user's progress and a welcome message)
     View welcome message

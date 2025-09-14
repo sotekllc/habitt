@@ -10,6 +10,7 @@ class Habit {
   final Color color;
   bool _should_notify = false;
   NotificationType _notification_type = NotificationType.NONE;
+  DateTime? _completion_dt = null;
 
   bool get should_notify => _should_notify;
 
@@ -21,6 +22,12 @@ class Habit {
 
   void set notification_type(NotificationType type) {
     this._notification_type = type;
+  }
+
+  DateTime? get completion_dt => _completion_dt;
+
+  void set completion_dt(DateTime completed) {
+    this._completion_dt = completed;
   }
 
   Habit({required this.label, required this.status, required this.color});

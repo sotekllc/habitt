@@ -3,7 +3,7 @@ import 'package:crypto/crypto.dart';
 
 
 class User {
-  final String email;
+  final String username;
   final int age;
   String _password = '';
   final String country;
@@ -20,5 +20,5 @@ class User {
     this._password = hash.toString();
   }
   
-  User({required this.email, required this.age, required this.country});
+  User({required this.username, required this.age, required this.country});
 }
