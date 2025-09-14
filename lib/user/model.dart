@@ -6,6 +6,7 @@ class User {
   final String email;
   final int age;
   String _password = '';
+  final String country;
 
   String get password => _password;
 
@@ -19,5 +20,5 @@ class User {
     this._password = hash.toString();
   }
   
-  User({required this.email, required this.age});
+  User({required this.email, required this.age, required this.country});
 }
