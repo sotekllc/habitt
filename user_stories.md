@@ -20,8 +20,11 @@ Organize user stories with labels to help you quickly identify their purpose and
         As a user, I want to see a personalized welcome message with my name on the homepage, so that I feel recognized and can confirm I am logged into the correct account.
     Display weekly progress
         As a user, I want to see my daily progress for each habit on the homepage, so that I can easily monitor my progress.
+        Swipe right on habits to complete them.
     View completed habits
         As a user, I want to see a section for completed habits on the homepage, so that I can track what I have already achieved.
+    Empty habits list
+        Include a floating action button (FAB) for adding new habits if the list is empty.
 - Tasks\Habits
     Add a new habit
         As a user, I want to add new habits on the details configuration page so that I can manage and update my habits as needed.
