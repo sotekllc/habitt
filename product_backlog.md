@@ -61,6 +61,8 @@ A backlog list of all the user stories that need to be implemented for the habit
         As a user, I want to see a chart of my completed habits for each day of the week so that I can quickly identify trends in my progress.
     View all habits
         As a user, I want to see both completed and incomplete habits in my report so that I have a comprehensive view of my habit tracking performance.
+    Setup local storage repository for pulling 
+    Implement logic for clearing habits each day and storing old habits for reporting (need local storage variable for which day is currently being tracked by app)
 
 7. Notification/reminder
     Enable/disable notifications
