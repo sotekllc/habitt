@@ -11,9 +11,15 @@ class UserViewModel with ChangeNotifier {
     return this.service.userIsLoggedIn();
   }
 
-  void login() {}
+  void login(Map<String, dynamic> data) {
+    this.service.login(data);
+  }
 
-  void register() {}
+  void register(Map<String, dynamic> data) {
+    this.service.register(data);
+  }
 
-  void logout() {}
+  void logout() {
+    this.service.logout();
+  }
 }
