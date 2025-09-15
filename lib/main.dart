@@ -1,12 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:habitt/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:localstorage/localstorage.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:habitt/habit/home_screen.dart';
+import 'package:habitt/user/country_service.dart';
+import 'package:habitt/user/login_screen.dart';
+import 'package:habitt/user/repository.dart';
+import 'package:habitt/user/view_model.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initLocalStorage();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserViewModel(
+            service: InMemoryUserRepository(
+              storage: localStorage,
+              countryService: InMemoryCountryService(),
+            ),
+          ),
+        ),
+      ],
+      child: HabittApp(),
+    ),
+  );
+  // runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class HabittApp extends StatelessWidget {
+  const HabittApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -16,24 +41,18 @@ class MyApp extends StatelessWidget {
       // TODO
       //  Read from ConfigurationProvider for light vs dark theme
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeScreen(),
+      home: Consumer<UserViewModel>(
+        builder: (context, provider, child) {
+          if (provider.isLoggedIn()) {
+            return HomeScreen();
+          } else {
+            return LoginScreen();
+          }
+        },
+      ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

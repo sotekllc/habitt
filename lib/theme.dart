@@ -96,7 +96,7 @@ const subtitleStyle = TextStyle(
 
 class AppSizes {
   static EdgeInsets screenPadding = EdgeInsets.symmetric(
-    vertical: 10.0,
-    horizontal: 12.0,
+    vertical: 24.0,
+    horizontal: 24.0,
   );
 }
