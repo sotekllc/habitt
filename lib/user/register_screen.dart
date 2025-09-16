@@ -70,7 +70,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       showToast(fToast, 'User registered, logging in...', Colors.greenAccent);
     } catch (e) {
       print('Error registering user: $e');
-
       showToast(fToast, e.toString(), Colors.redAccent);
     }
   }
@@ -165,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: availableHabits.map((habit) {
                     final isSelected = selectedHabits.contains(habit);
                     return GestureDetector(
-                      onTap: () => null,
+                      onTap: () => selectedHabits.add(habit),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,

@@ -94,6 +94,9 @@ class LocalStorageUserRepository implements UserRepository {
     return this._user != null;
   }
 
+  /**
+   * Returns either the stored User object or null.
+   */
   User? getUser() {
     return this._user;
   }
@@ -116,11 +119,14 @@ class LocalStorageUserRepository implements UserRepository {
       this.countryService.getCountries().length,
     );
 
-    // With no backend storage and no DB for the InMemory implementation,
+    // With no backend storage and no DB for the LocalStorage implementation,
     //  we have no comparisons to make to login, so we treat any data
     //  as valid and randomize a User object.
     // Other implementations of UserRepository will use a database as
     //  the source of truth for authentication (instead of pass-thru).
+    // We could have stored User on registration and compared credentials to
+    //  LocalStorage users, but then we'd have to manage storing multiple users
+    //  in LocalStorage which is unnecessary. (We just need a dummy service for v0).
     this._user = User(
       username: data['username'],
       age: Random().nextInt(100) + 18,
@@ -145,7 +151,7 @@ class LocalStorageUserRepository implements UserRepository {
       country: data['country'],
     );
     this._user?.password = data['password'];
-    // this.login(data);
+
     _storeUserInStorage();
   }
 
@@ -168,6 +174,12 @@ class LocalStorageUserRepository implements UserRepository {
  * local storage for "caching" of user data.
  */
 // class DatabaseUserRepository implements UserRepository {
+
+//  void _loadUser()
+//  void _saveUser()
+
+//  User? getUser()
+
 //   bool userIsLoggedIn() {}
 
 //   void login() {}

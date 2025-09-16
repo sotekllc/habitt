@@ -42,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
       showToast(fToast, 'Successfully logged in!', Colors.greenAccent);
     } catch (e) {
       print('Error logging user in: $e');
-
       showToast(fToast, e.toString(), Colors.redAccent);
     }
   }
