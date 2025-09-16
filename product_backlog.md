@@ -77,3 +77,5 @@ A backlog list of all the user stories that need to be implemented for the habit
 8. Introductory Carousel How-To Guide
     First-time bootstrap shows carousel guide
     Subsequent bootstraps check local storage for completion flag
+
+9. Implement remote fetching value version of CountryService
