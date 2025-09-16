@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
-enum ThemeMode { LIGHT, DARK }
+enum UI_THEME { LIGHT, DARK }
 
 final String STORAGE_KEY = 'theme_mode';
 
 class ThemeProvider with ChangeNotifier {
-  ThemeMode _mode = ThemeMode.LIGHT;
+  UI_THEME _mode = UI_THEME.LIGHT;
   final LocalStorage storage;
 
-  ThemeMode get mode => _mode;
+  UI_THEME get mode => _mode;
 
   // void set mode(ThemeMode mode) {
   //   this._mode = mode;
@@ -19,9 +19,9 @@ class ThemeProvider with ChangeNotifier {
   ThemeProvider({required this.storage}) {
     var storedThemeMode = storage.getItem(STORAGE_KEY);
 
-    this._mode = ThemeMode.values.firstWhere(
+    this._mode = UI_THEME.values.firstWhere(
       (e) => e.toString() == storedThemeMode,
-      orElse: () => ThemeMode.LIGHT, // fallback if not found
+      orElse: () => UI_THEME.LIGHT, // fallback if not found
     );
 
     // if (storedThemeMode != null) {
@@ -36,13 +36,13 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void switchToDarkMode() {
-    this._mode = ThemeMode.DARK;
+    this._mode = UI_THEME.DARK;
     _storeThemeMode();
     notifyListeners();
   }
 
   void switchToLightMode() {
-    this._mode = ThemeMode.LIGHT;
+    this._mode = UI_THEME.LIGHT;
     _storeThemeMode();
     notifyListeners();
   }

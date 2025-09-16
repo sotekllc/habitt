@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:habitt/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:localstorage/localstorage.dart';
 
 import 'package:habitt/habit/home_screen.dart';
+import 'package:habitt/theme_provider.dart';
 import 'package:habitt/user/country_service.dart';
 import 'package:habitt/user/login_screen.dart';
 import 'package:habitt/user/repository.dart';
@@ -15,6 +17,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(storage: localStorage),
+        ),
         ChangeNotifierProvider(
           create: (_) => UserViewModel(
             service: InMemoryUserRepository(
@@ -36,13 +41,16 @@ class HabittApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       title: 'Flutter Demo',
       // TODO
       //  Read from ConfigurationProvider for light vs dark theme
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      // ),
+      theme: themeProvider.mode == UI_THEME.DARK ? darkTheme : lightTheme,
       home: Consumer<UserViewModel>(
         builder: (context, provider, child) {
           if (provider.isLoggedIn()) {
