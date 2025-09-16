@@ -10,7 +10,7 @@ import 'package:habitt/user/model.dart';
  * Intended to be a service dependency for a UserViewModel.
  */
 abstract class UserRepository {
-  late User _user;
+  late User? _user;
 
   /**
    * Uses the configured storage to determine if there is saved user data
@@ -23,7 +23,7 @@ abstract class UserRepository {
    * Returns the current User object (which is defined IFF
    * the User is logged in).
    */
-  User getUser();
+  User? getUser();
 
   /**
    * Performs user authentication using a username/password.
@@ -56,7 +56,7 @@ abstract class UserRepository {
 final String STORAGE_KEY = 'user';
 
 class InMemoryUserRepository implements UserRepository {
-  late User _user;
+  late User? _user;
   final LocalStorage storage;
   final CountryService countryService;
 
@@ -66,7 +66,10 @@ class InMemoryUserRepository implements UserRepository {
   //   this._user = user;
   // }
 
-  InMemoryUserRepository({required this.storage, required this.countryService}) {
+  InMemoryUserRepository({
+    required this.storage,
+    required this.countryService,
+  }) {
     _loadUserFromStorage();
   }
 
@@ -79,14 +82,19 @@ class InMemoryUserRepository implements UserRepository {
     }
   }
 
+  void _storeUserInStorage() {
+    storage.setItem(STORAGE_KEY, jsonEncode(this._user?.toJson()));
+  }
+
   /**
    * For localstorage\in-memory user data storage
    */
   bool userIsLoggedIn() {
-    return this._user.username.isNotEmpty;
+    // return this._user.username.isNotEmpty;
+    return this._user != null;
   }
 
-  User getUser() {
+  User? getUser() {
     return this._user;
   }
 
@@ -108,11 +116,19 @@ class InMemoryUserRepository implements UserRepository {
       this.countryService.getCountries().length,
     );
 
+    // With no backend storage and no DB for the InMemory implementation,
+    //  we have no comparisons to make to login, so we treat any data
+    //  as valid and randomize a User object.
+    // Other implementations of UserRepository will use a database as
+    //  the source of truth for authentication (instead of pass-thru).
     this._user = User(
       username: data['username'],
       age: Random().nextInt(100) + 18,
       country: this.countryService.getCountries()[randCountryIndex],
     );
+    this._user?.password = data['password'];
+
+    _storeUserInStorage();
   }
 
   /**
@@ -126,13 +142,24 @@ class InMemoryUserRepository implements UserRepository {
     this._user = User(
       username: data['username'],
       age: data['age'],
-      country: data['country']
+      country: data['country'],
     );
-    this._user.password = data['password'];
+    this._user?.password = data['password'];
     // this.login(data);
+    _storeUserInStorage();
   }
 
-  void logout() {}
+  /**
+   * PASS-THRU
+   * Pass-thru logout method for in-memory only implementation of
+   * UserRepository.
+   * No backend or db source of truth means we just need to wipe
+   * the local user data including what's in localStorage.
+   */
+  void logout() {
+    this._user = null;
+    storage.removeItem(STORAGE_KEY);
+  }
 }
 
 /**

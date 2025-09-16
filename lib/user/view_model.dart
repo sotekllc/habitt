@@ -12,7 +12,7 @@ class UserViewModel with ChangeNotifier {
     return this.service.userIsLoggedIn();
   }
 
-  User getUser() {
+  User? getUser() {
     return this.service.getUser();
   }
 
