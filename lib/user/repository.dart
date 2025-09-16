@@ -55,7 +55,7 @@ abstract class UserRepository {
  */
 final String STORAGE_KEY = 'user';
 
-class InMemoryUserRepository implements UserRepository {
+class LocalStorageUserRepository implements UserRepository {
   late User? _user;
   final LocalStorage storage;
   final CountryService countryService;
@@ -66,7 +66,7 @@ class InMemoryUserRepository implements UserRepository {
   //   this._user = user;
   // }
 
-  InMemoryUserRepository({
+  LocalStorageUserRepository({
     required this.storage,
     required this.countryService,
   }) {

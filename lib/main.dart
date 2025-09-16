@@ -22,7 +22,7 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => UserViewModel(
-            service: InMemoryUserRepository(
+            service: LocalStorageUserRepository(
               storage: localStorage,
               countryService: InMemoryCountryService(),
             ),
