@@ -22,7 +22,7 @@ ThemeData get darkTheme {
       seedColor: const Color(0xff2196f3),
       primary: const Color(0xff2196f3),
       primaryContainer: const Color(0xff212121),
-      surface: const Color(0xff212121)
+      surface: const Color(0xff212121),
     ),
     iconTheme: IconThemeData(color: Colors.white, weight: 400, size: 32.0),
     disabledColor: const Color(0xff757575),
@@ -58,7 +58,7 @@ ThemeData get lightTheme {
       seedColor: const Color(0xff3f51b5),
       primary: const Color(0xff3f51b5),
       primaryContainer: const Color(0xffffffff),
-      surface: const Color(0xffffffff)
+      surface: const Color(0xffffffff),
     ),
     iconTheme: IconThemeData(color: Colors.white, weight: 400, size: 32.0),
     disabledColor: const Color(0xff757575),
@@ -92,6 +92,11 @@ const subtitleStyle = TextStyle(
   color: Color(0xff757575),
   fontWeight: FontWeight.w400,
   fontSize: 12.0,
+);
+
+final formFieldDecoration = BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(30),
 );
 
 class AppSizes {
