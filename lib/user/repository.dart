@@ -20,6 +20,12 @@ abstract class UserRepository {
   bool userIsLoggedIn();
 
   /**
+   * Returns the current User object (which is defined IFF
+   * the User is logged in).
+   */
+  User getUser();
+
+  /**
    * Performs user authentication using a username/password.
    * Sets the User object for the service if successful,
    * throws an exception otherwise.
@@ -54,11 +60,11 @@ class InMemoryUserRepository implements UserRepository {
   final LocalStorage storage;
   final CountryService countryService;
 
-  User get user => _user;
+  // User get user => _user;
 
-  void set user(User user) {
-    this._user = user;
-  }
+  // void set user(User user) {
+  //   this._user = user;
+  // }
 
   InMemoryUserRepository({required this.storage, required this.countryService}) {
     _loadUserFromStorage();
@@ -78,6 +84,10 @@ class InMemoryUserRepository implements UserRepository {
    */
   bool userIsLoggedIn() {
     return this._user.username.isNotEmpty;
+  }
+
+  User getUser() {
+    return this._user;
   }
 
   /**

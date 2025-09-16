@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:habitt/user/model.dart';
 import 'package:habitt/user/repository.dart';
 
 class UserViewModel with ChangeNotifier {
@@ -11,15 +12,22 @@ class UserViewModel with ChangeNotifier {
     return this.service.userIsLoggedIn();
   }
 
+  User getUser() {
+    return this.service.getUser();
+  }
+
   void login(Map<String, dynamic> data) {
     this.service.login(data);
+    notifyListeners();
   }
 
   void register(Map<String, dynamic> data) {
     this.service.register(data);
+    notifyListeners();
   }
 
   void logout() {
     this.service.logout();
+    notifyListeners();
   }
 }
