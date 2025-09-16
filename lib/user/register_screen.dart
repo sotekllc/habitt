@@ -2,6 +2,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:habitt/habit/home_screen.dart';
 import 'package:habitt/user/country_service.dart';
 import 'package:habitt/user/login_screen.dart';
 import 'package:habitt/theme.dart';
@@ -17,6 +18,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late FToast fToast;
+  final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -68,6 +70,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
 
       showToast(fToast, 'User registered, logging in...', Colors.greenAccent);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
     } catch (e) {
       print('Error registering user: $e');
       showToast(fToast, e.toString(), Colors.redAccent);
@@ -114,106 +121,113 @@ class _RegisterScreenState extends State<RegisterScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: AppSizes.screenPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildInputField(
-                  _usernameController,
-                  'Username',
-                  Icons.alternate_email,
-                  theme,
-                ),
-                const SizedBox(height: 10),
-                _buildInputField(
-                  _passwordController,
-                  'Password',
-                  Icons.security_outlined,
-                  theme,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Age: ${_age.round()}',
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                Slider(
-                  value: _age,
-                  min: 21,
-                  max: 100,
-                  divisions: 79,
-                  activeColor: Colors.blue.shade600,
-                  inactiveColor: Colors.blue.shade300,
-                  onChanged: (double value) {
-                    setState(() {
-                      _age = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 10),
-                _buildCountryDropdown(theme),
-                const SizedBox(height: 10),
-                const Text(
-                  'Select Your Habits',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: availableHabits.map((habit) {
-                    final isSelected = selectedHabits.contains(habit);
-                    return GestureDetector(
-                      onTap: () => selectedHabits.add(habit),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? theme.primaryColorLight
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: theme.primaryColorDark),
-                        ),
-                        child: Text(
-                          habit,
-                          style: TextStyle(
+        child: Form(
+          key: _formKey,
+          child: Center(
+            child: SingleChildScrollView(
+              padding: AppSizes.screenPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInputField(
+                    _usernameController,
+                    'Username',
+                    Icons.alternate_email,
+                    theme,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildInputField(
+                    _passwordController,
+                    'Password',
+                    Icons.security_outlined,
+                    theme,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Age: ${_age.round()}',
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  Slider(
+                    value: _age,
+                    min: 21,
+                    max: 100,
+                    divisions: 79,
+                    activeColor: theme.primaryColorDark,
+                    inactiveColor: theme.primaryColorLight,
+                    onChanged: (double value) {
+                      setState(() {
+                        _age = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  _buildCountryDropdown(theme),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Select Your Habits',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: availableHabits.map((habit) {
+                      final isSelected = selectedHabits.contains(habit);
+                      return GestureDetector(
+                        onTap: () => selectedHabits.add(habit),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
                             color: isSelected
-                                ? Colors.white
-                                : theme.primaryColorDark,
+                                ? theme.primaryColorLight
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: theme.primaryColorDark),
+                          ),
+                          child: Text(
+                            habit,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? Colors.white
+                                  : theme.primaryColorDark,
+                            ),
                           ),
                         ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _register(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.primaryColorLight,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 80,
+                          vertical: 15,
+                        ),
                       ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () => _register(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.primaryColorLight,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 80,
-                        vertical: 15,
-                      ),
-                    ),
-                    child: const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                      child: const Text(
+                        'Register',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -228,11 +242,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ThemeData theme,
   ) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
+      decoration: formFieldDecoration,
+      child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: theme.primaryColorDark),
@@ -243,6 +254,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             vertical: 15,
           ),
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Field is required';
+          }
+          return null;
+        },
       ),
     );
   }
@@ -250,10 +267,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildCountryDropdown(ThemeData theme) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
+      decoration: formFieldDecoration,
       child: DropdownButton<String>(
         value: _country,
         icon: Icon(Icons.arrow_drop_down, color: theme.primaryColorDark),
