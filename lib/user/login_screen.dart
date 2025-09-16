@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:habitt/user/register_screen.dart';
 import 'package:habitt/user/repository.dart';
 import 'package:habitt/theme.dart';
+import 'package:habitt/toast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,51 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
         'password': _passwordController.text,
       });
 
-      Widget toast = Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Colors.greenAccent,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check),
-            SizedBox(width: 12.0),
-            Text('Successfully logged in!'),
-          ],
-        ),
-      );
-
-      fToast.showToast(
-        child: toast,
-        gravity: ToastGravity.BOTTOM,
-        toastDuration: Duration(seconds: 2),
-      );
+      showToast(fToast, 'Successfully logged in!', Colors.greenAccent);
     } catch (e) {
       print('Error logging user in: $e');
 
-      Widget toast = Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-          color: Colors.redAccent,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check),
-            SizedBox(width: 12.0),
-            Text(e.toString()),
-          ],
-        ),
-      );
-
-      fToast.showToast(
-        child: toast,
-        gravity: ToastGravity.BOTTOM,
-        toastDuration: Duration(seconds: 2),
-      );
+      showToast(fToast, e.toString(), Colors.redAccent);
     }
   }
 
