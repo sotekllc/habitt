@@ -78,4 +78,6 @@ A backlog list of all the user stories that need to be implemented for the habit
     First-time bootstrap shows carousel guide
     Subsequent bootstraps check local storage for completion flag
 
-9. Implement remote fetching value version of CountryService
+9. Nice to Haves
+    Implement and use ThemeProvider for switching between Light and Dark modes
+    Implement remote fetching value version of CountryService
