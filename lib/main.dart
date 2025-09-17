@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:habitt/theme.dart';
 import 'package:provider/provider.dart';
@@ -44,12 +45,11 @@ class HabittApp extends StatelessWidget {
     var themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp(
-      title: 'Flutter Demo',
-      // TODO
-      //  Read from ConfigurationProvider for light vs dark theme
+      title: 'Habitt',
       // theme: ThemeData(
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       // ),
+      builder: FToastBuilder(),
       theme: themeProvider.mode == UI_THEME.DARK ? darkTheme : lightTheme,
       home: Consumer<UserViewModel>(
         builder: (context, provider, child) {

@@ -56,7 +56,7 @@ abstract class UserRepository {
 final String STORAGE_KEY = 'user';
 
 class LocalStorageUserRepository implements UserRepository {
-  late User? _user;
+  late User? _user = null;
   final LocalStorage storage;
   final CountryService countryService;
 
@@ -168,6 +168,7 @@ class LocalStorageUserRepository implements UserRepository {
   }
 }
 
+// TODO SQLite? PostgreSQL? Fire store (documents)?
 /**
  * Local SQLite database storage implementation of UserRepository.
  * Uses a local SQLite instance to store user data and

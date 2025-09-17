@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register(BuildContext context) async {
-    var userRepository = Provider.of<UserRepository>(context);
+    var userRepository = Provider.of<UserRepository>(context, listen: false);
 
     try {
       userRepository.register({
@@ -173,7 +173,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: availableHabits.map((habit) {
                       final isSelected = selectedHabits.contains(habit);
                       return GestureDetector(
-                        onTap: () => selectedHabits.add(habit),
+                        // onTap: () => selectedHabits.add(habit),
+                        onTap: () {
+                          print('Adding habit to selectedHabits: $habit');
+                          print('isSelected: $isSelected');
+                          print(selectedHabits);
+                          selectedHabits.add(habit);
+                        },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 20,
