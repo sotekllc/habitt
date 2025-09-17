@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:habitt/habit/home_screen.dart';
 import 'package:habitt/user/register_screen.dart';
 import 'package:habitt/user/repository.dart';
+import 'package:habitt/user/view_model.dart';
 import 'package:habitt/theme.dart';
 import 'package:habitt/toast.dart';
 
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login(BuildContext context) {
     try {
-      var userRepository = Provider.of<UserRepository>(context);
+      var userRepository = Provider.of<UserViewModel>(context, listen: false);
 
       userRepository.login({
         'username': _usernameController.text,
