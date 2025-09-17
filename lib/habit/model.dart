@@ -26,9 +26,41 @@ class Habit {
 
   DateTime? get completion_dt => _completion_dt;
 
-  void set completion_dt(DateTime completed) {
+  void set completion_dt(DateTime? completed) {
     this._completion_dt = completed;
   }
 
   Habit({required this.label, required this.status, required this.color});
+
+  factory Habit.fromJson(Map<String, dynamic> data) {
+    Habit habit = Habit(
+      label: data['label'],
+      status: data['status']
+          ? HabitStatus.values.byName(data['status'])
+          : HabitStatus.TODO,
+      color: Color(data['color']),
+    );
+    habit.should_notify = data['should_notify'] != null
+        ? data['should_notify'].toString().toLowerCase() == 'true'
+        : false;
+    habit.notification_type = data['notification_type'] != null
+        ? NotificationType.values.byName(data['notification_type'])
+        : NotificationType.NONE;
+    habit.completion_dt = data['completion_dt'] != null
+        ? DateTime.parse(data['completion_dt'])
+        : null;
+
+    return habit;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'label': this.label.toLowerCase(),
+      'status': this.status.toString(),
+      'color': this.color.toString(),
+      'should_notify': this._should_notify,
+      'notification_type': this._notification_type,
+      'completion_dt': this._completion_dt?.toIso8601String(),
+    };
+  }
 }
