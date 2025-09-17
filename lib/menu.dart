@@ -18,7 +18,14 @@ Widget menuDrawer(BuildContext context) {
       children: [
         DrawerHeader(
           decoration: BoxDecoration(color: theme.primaryColorDark),
-          child: Text('Menu'),
+          child: Text(
+            'Menu',
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         ListTile(
           title: const Text('Habits'),

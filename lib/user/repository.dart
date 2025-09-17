@@ -60,12 +60,6 @@ class LocalStorageUserRepository implements UserRepository {
   final LocalStorage storage;
   final CountryService countryService;
 
-  // User get user => _user;
-
-  // void set user(User user) {
-  //   this._user = user;
-  // }
-
   LocalStorageUserRepository({
     required this.storage,
     required this.countryService,
@@ -162,6 +156,60 @@ class LocalStorageUserRepository implements UserRepository {
    * No backend or db source of truth means we just need to wipe
    * the local user data including what's in localStorage.
    */
+  void logout() {
+    this._user = null;
+    storage.removeItem(STORAGE_KEY);
+  }
+}
+
+class AlwaysFailingUserRepository implements UserRepository {
+  late User? _user = null;
+  final LocalStorage storage;
+  final CountryService countryService;
+
+  AlwaysFailingUserRepository({
+    required this.storage,
+    required this.countryService,
+  }) {
+    _loadUserFromStorage();
+  }
+
+  // TODO
+  //  Switch to storing user in flutter_secure_storage
+  void _loadUserFromStorage() {
+    var storedUser = storage.getItem(STORAGE_KEY);
+    if (storedUser != null) {
+      this._user = User.fromJson(jsonDecode(storedUser));
+    }
+  }
+
+  void _storeUserInStorage() {
+    throw UnimplementedError('Failed to save User data.');
+  }
+
+  /**
+   * For localstorage\in-memory user data storage
+   */
+  bool userIsLoggedIn() {
+    // return this._user.username.isNotEmpty;
+    return this._user != null;
+  }
+
+  /**
+   * Returns either the stored User object or null.
+   */
+  User? getUser() {
+    return this._user;
+  }
+
+  void login(Map<String, dynamic> data) {
+    throw UnimplementedError('Login failed');
+  }
+
+  void register(Map<String, dynamic> data) {
+    throw UnimplementedError('Registration failed');
+  }
+
   void logout() {
     this._user = null;
     storage.removeItem(STORAGE_KEY);

@@ -7,7 +7,6 @@ import 'package:habitt/user/register_screen.dart';
 import 'package:habitt/user/repository.dart';
 import 'package:habitt/user/view_model.dart';
 import 'package:habitt/theme.dart';
-import 'package:habitt/toast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -213,6 +212,26 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void showToast(FToast fToast, String text, Color color) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: color,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [Icon(Icons.check), SizedBox(width: 12.0), Text(text)],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
     );
   }
 }

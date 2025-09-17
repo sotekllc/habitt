@@ -1,5 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
+import 'package:habitt/user/view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:habitt/habit/home_screen.dart';
@@ -7,7 +8,6 @@ import 'package:habitt/user/country_service.dart';
 import 'package:habitt/user/login_screen.dart';
 import 'package:habitt/theme.dart';
 import 'package:habitt/user/repository.dart';
-import 'package:habitt/toast.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register(BuildContext context) async {
-    var userRepository = Provider.of<UserRepository>(context, listen: false);
+    var userRepository = Provider.of<UserViewModel>(context, listen: false);
 
     try {
       userRepository.register({
@@ -288,6 +288,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
           });
         },
       ),
+    );
+  }
+
+  void showToast(FToast fToast, String text, Color color) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: color,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [Icon(Icons.check), SizedBox(width: 12.0), Text(text)],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
     );
   }
 }
