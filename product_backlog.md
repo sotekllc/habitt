@@ -80,4 +80,5 @@ A backlog list of all the user stories that need to be implemented for the habit
 
 9. Nice to Haves
     Implement and use ThemeProvider for switching between Light and Dark modes
+    Switch to flutter_secure_storage for UserData local storage
     Implement remote fetching value version of CountryService
