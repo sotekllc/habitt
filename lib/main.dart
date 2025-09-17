@@ -1,10 +1,12 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
+import 'package:habitt/habit/view_model.dart';
 import 'package:habitt/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:localstorage/localstorage.dart';
 
 import 'package:habitt/habit/home_screen.dart';
+import 'package:habitt/habit/repository.dart';
 import 'package:habitt/theme_provider.dart';
 import 'package:habitt/user/country_service.dart';
 import 'package:habitt/user/login_screen.dart';
@@ -27,6 +29,11 @@ void main() async {
               storage: localStorage,
               countryService: InMemoryCountryService(),
             ),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => HabitsViewModel(
+            service: LocalStorageHabitsRepository(storage: localStorage),
           ),
         ),
       ],
