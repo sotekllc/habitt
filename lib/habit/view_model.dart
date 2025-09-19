@@ -23,6 +23,16 @@ class HabitsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void markHabitComplete(Habit habit) {
+    this.service.updateHabitStatus(habit, HabitStatus.COMPLETED);
+    notifyListeners();
+  }
+
+  void markHabitIncomplete(Habit habit) {
+    this.service.updateHabitStatus(habit, HabitStatus.TODO);
+    notifyListeners();
+  }
+  
   List<Habit> filterTodoHabits() {
     return this.service.habits
         .where((habit) => habit.completion_dt == null)

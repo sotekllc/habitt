@@ -16,6 +16,8 @@ abstract class HabitsRepository {
 
   void removeHabit(String label);
 
+  void updateHabitStatus(Habit habit, HabitStatus status);
+
   void scheduleHabitNotification(
     Habit habit,
     NotificationType notification_type,
@@ -37,7 +39,6 @@ class LocalStorageHabitsRepository implements HabitsRepository {
   }
 
   void _loadHabitsFromStorage() {
-    print('LOAD HABITS FROM STORAGE');
     var storedHabits = storage.getItem(STORAGE_KEY);
     if (storedHabits != null) {
       var storedHabitsData = json.decode(storedHabits);
@@ -59,13 +60,24 @@ class LocalStorageHabitsRepository implements HabitsRepository {
   }
 
   void addHabit(Map<String, dynamic> data) {
-    print('Created Habit: ${Habit.fromJson(data)}');
     this.habits.add(Habit.fromJson(data));
     _saveHabitsToStorage();
   }
 
   void removeHabit(String label) {
     this.habits.removeWhere((h) => h.label == label);
+    _saveHabitsToStorage();
+  }
+
+  void updateHabitStatus(Habit habit, HabitStatus status) {
+    var _index = this.habits.indexOf(habit);
+
+    if (status == HabitStatus.COMPLETED) {
+      this.habits[_index].completion_dt = DateTime.now();
+    } else if (status == HabitStatus.TODO) {
+      this.habits[_index].completion_dt = null;
+    }
+
     _saveHabitsToStorage();
   }
 

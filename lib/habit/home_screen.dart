@@ -7,16 +7,26 @@ import 'package:habitt/theme.dart';
 import 'package:habitt/user/model.dart';
 import 'package:habitt/user/view_model.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  double _dragOffsetTodo = 0.0; // how far we’ve dragged
+  double _scaleTodo = 1.0; // scale factor
+  double _dragOffsetCompleted = 0.0; // how far we’ve dragged
+  double _scaleCompleted = 1.0; // scale factor
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var userViewModel = Provider.of<UserViewModel>(context);
     var habitsViewModel = Provider.of<HabitsViewModel>(context);
-    User? user = userViewModel.getUser();
-    user?.username;
+    var userViewModel = Provider.of<UserViewModel>(context);
+
+    var user = userViewModel.getUser();
 
     return Scaffold(
       appBar: AppBar(
@@ -78,20 +88,26 @@ class HomeScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final habit = habitsViewModel.filterTodoHabits()[index];
-                  return Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Container(
-                        color: habit.color,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: habit.color,
+                  return GestureDetector(
+                    onDoubleTap: () {
+                      habitsViewModel.markHabitComplete(habit);
+                    },
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+
+                        Container(
+                          color: habit.color,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: habit.color,
+                            ),
+                            title: Text(habit.label, style: titleStyle),
                           ),
-                          title: Text(habit.label, style: titleStyle),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
@@ -131,20 +147,25 @@ class HomeScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final habit = habitsViewModel.filterCompletedHabits()[index];
-                  return Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Container(
-                        color: habit.color,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: habit.color,
+                  return GestureDetector(
+                    onDoubleTap: () {
+                      habitsViewModel.markHabitIncomplete(habit);
+                    },
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Container(
+                          color: habit.color,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: habit.color,
+                            ),
+                            title: Text(habit.label, style: titleStyle),
                           ),
-                          title: Text(habit.label, style: titleStyle),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
