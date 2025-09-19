@@ -12,6 +12,7 @@ A backlog list of all the user stories that need to be implemented for the habit
         As a user, I want to log in using my username and password so that I can access my account and track my habits.
     Error feedback on login
         As a user, I want to receive a message if I enter the wrong username or password so that I know my login attempt was unsuccessful.
+    Implement unit tests for User model
 
 2. Menu
     Access menu options
@@ -31,6 +32,7 @@ A backlog list of all the user stories that need to be implemented for the habit
     Personalize a habit with color
         As a user, I want to assign a specific color to each habit to make it personal to me.
     Create API endpoint for reading/writing Habits
+    Implement unit tests for Habit model
 
 4. Homepage (an overview of the user's progress and a welcome message)
     View welcome message
@@ -55,6 +57,7 @@ A backlog list of all the user stories that need to be implemented for the habit
         Persist configurations in local storage to reload on subsequent sessions.
 
 6. Reports page
+    Implement day tracking and habits daily storage to power reporting
     View weekly reports
         As a user, I want to see a report of my weekly habit progress so that I can understand how well I am maintaining my habits.
     Visualize completed habits
