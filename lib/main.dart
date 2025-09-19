@@ -40,7 +40,6 @@ void main() async {
       child: HabittApp(),
     ),
   );
-  // runApp(const MyApp());
 }
 
 class HabittApp extends StatelessWidget {

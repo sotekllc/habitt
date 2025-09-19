@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitt/habit/home_screen.dart';
 import 'package:habitt/user/login_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,15 @@ Widget menuDrawer(BuildContext context) {
               fontWeight: FontWeight.bold,
             ),
           ),
+        ),
+        ListTile(
+          title: const Text('Home'),
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          },
         ),
         ListTile(
           title: const Text('Habits'),

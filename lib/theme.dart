@@ -73,14 +73,15 @@ ThemeData get lightTheme {
 
 // Fixed colors for personalizing habits.
 //  TODO  add and associate colors with labels such as "high priority" or "daily".
-const habitColors = [
-  const Color(0xff512da8),
-  const Color(0xffffa000),
-  const Color(0xffd32f2f),
-  const Color(0xff388e3c),
-  const Color(0xffe64a19),
-  const Color(0xffc2185b),
-];
+
+// Define available colors
+final Map<String, Color> habitColors = {
+  'Red': Colors.red,
+  'Green': Colors.green,
+  'Blue': Colors.blue,
+  'Yellow': Colors.yellow,
+  'Orange': Colors.orange,
+};
 
 const titleStyle = TextStyle(
   color: Color(0xff212121),
