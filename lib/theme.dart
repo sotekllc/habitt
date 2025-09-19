@@ -105,4 +105,6 @@ class AppSizes {
     vertical: 24.0,
     horizontal: 24.0,
   );
+
+  static EdgeInsets sidePadding = EdgeInsets.only(left: 20);
 }
