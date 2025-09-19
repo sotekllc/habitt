@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitt/habit/view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:habitt/menu.dart';
@@ -13,14 +14,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var userViewModel = Provider.of<UserViewModel>(context);
+    var habitsViewModel = Provider.of<HabitsViewModel>(context);
     User? user = userViewModel.getUser();
     user?.username;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.primaryColorDark,
-        title: const Text(
-          'Habitt',
+        title: Text(
+          user != null ? user.username : 'Habitt',
           style: TextStyle(
             fontSize: 32,
             color: Colors.white,
@@ -31,24 +33,123 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: SingleChildScrollView(
           padding: AppSizes.screenPadding,
-          child: Column(children: [
-            const Text(
-            'HOME SCREEN',
-            style: TextStyle(
-              fontSize: 32,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Column(
+            children: [
+              const Text(
+                'HOME SCREEN',
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              Divider(
+                height: 20,
+                thickness: 2,
+                indent: 20,
+                endIndent: 0,
+                color: theme.dividerColor,
+              ),
+
+              Container(
+                padding: AppSizes.sidePadding,
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Row(
+                    children: [
+                      Text(
+                        'ToDo',
+                        style: Theme.of(context).textTheme.bodySmall,
+                        textAlign: TextAlign.start,
+                      ),
+                      Icon(
+                        Icons.pending,
+                        color: theme.dividerColor,
+                        size: 15.0,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              ListView.builder(
+                itemCount: habitsViewModel.filterTodoHabits().length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final habit = habitsViewModel.filterTodoHabits()[index];
+                  return Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(
+                        color: habit.color,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: habit.color,
+                          ),
+                          title: Text(habit.label, style: titleStyle),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+
+              Divider(
+                height: 20,
+                thickness: 2,
+                indent: 20,
+                endIndent: 0,
+                color: theme.dividerColor,
+              ),
+
+              Container(
+                padding: AppSizes.sidePadding,
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Done',
+                        style: Theme.of(context).textTheme.bodySmall,
+                        textAlign: TextAlign.start,
+                      ),
+                      Icon(
+                        Icons.check_box,
+                        color: theme.dividerColor,
+                        size: 15.0,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              ListView.builder(
+                itemCount: habitsViewModel.filterCompletedHabits().length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final habit = habitsViewModel.filterCompletedHabits()[index];
+                  return Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(
+                        color: habit.color,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: habit.color,
+                          ),
+                          title: Text(habit.label, style: titleStyle),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
-          Text(
-            user != null ? user.username : "User Unknown",
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          ],)
         ),
       ),
       drawer: menuDrawer(context),

@@ -23,10 +23,24 @@ class HabitsViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void scheduleHabitNotification(Habit habit, NotificationType notification_type) {
+  List<Habit> filterTodoHabits() {
+    return this.service.habits
+        .where((habit) => habit.completion_dt == null)
+        .toList();
+  }
+
+  List<Habit> filterCompletedHabits() {
+    return this.service.habits
+        .where((habit) => habit.completion_dt != null)
+        .toList();
+  }
+
+  void scheduleHabitNotification(
+    Habit habit,
+    NotificationType notification_type,
+  ) {
     // TODO
     //  (?) if clicked again and called, have method check if scheduling exists already,
     //  if so remove scheduling, if not already present add scheduling ?
   }
-
 }
