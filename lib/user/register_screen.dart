@@ -173,6 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: availableHabits.map((habit) {
                       final isSelected = selectedHabits.contains(habit);
                       return GestureDetector(
+                        // TODO
                         // onTap: () => selectedHabits.add(habit),
                         onTap: () {
                           print('Adding habit to selectedHabits: $habit');
