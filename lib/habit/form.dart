@@ -1,5 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
+import 'package:habitt/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:habitt/habit/view_model.dart';
@@ -55,6 +56,7 @@ class _HabitsFormScreenState extends State<HabitsFormScreen> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var habitsViewModel = Provider.of<HabitsViewModel>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -122,7 +124,9 @@ class _HabitsFormScreenState extends State<HabitsFormScreen> {
                         radius: 20,
                         backgroundColor: habit.color,
                       ),
-                      title: Text(habit.label),
+                      title: themeProvider.mode == UI_THEME.DARK
+                          ? Text(habit.label, style: TextStyle(color: Colors.white),)
+                          : Text(habit.label, style: TextStyle(color: Colors.black),),
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
@@ -173,24 +177,4 @@ class _HabitsFormScreenState extends State<HabitsFormScreen> {
       ),
     );
   }
-
-  // void showToast(FToast fToast, String text, Color color) {
-  //   Widget toast = Container(
-  //     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(25.0),
-  //       color: color,
-  //     ),
-  //     child: Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [Icon(Icons.check), SizedBox(width: 12.0), Text(text)],
-  //     ),
-  //   );
-
-  //   fToast.showToast(
-  //     child: toast,
-  //     gravity: ToastGravity.BOTTOM,
-  //     toastDuration: Duration(seconds: 2),
-  //   );
-  // }
 }

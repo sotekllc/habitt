@@ -12,10 +12,6 @@ class ThemeProvider with ChangeNotifier {
 
   UI_THEME get mode => _mode;
 
-  // void set mode(ThemeMode mode) {
-  //   this._mode = mode;
-  // }
-
   ThemeProvider({required this.storage}) {
     var storedThemeMode = storage.getItem(STORAGE_KEY);
 
@@ -23,12 +19,6 @@ class ThemeProvider with ChangeNotifier {
       (e) => e.toString() == storedThemeMode,
       orElse: () => UI_THEME.LIGHT, // fallback if not found
     );
-
-    // if (storedThemeMode != null) {
-    //   // this._mode = _mode;
-    // } else {
-    //   this._mode = ThemeMode.LIGHT;
-    // }
   }
 
   void _storeThemeMode() {

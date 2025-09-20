@@ -50,6 +50,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     //  Bit of a code smell here. But we need a service call that doesn't
     //  require passing BuildContext.
     List<String> subsetCountries = InMemoryCountryService().getCountries();
+
+    var userViewModel = Provider.of<UserViewModel>(context, listen: false);
+
+    _age = userViewModel.getUser()?.age.toDouble();
+    _username = userViewModel.getUser()?.username;
+
     setState(() {
       _countries = subsetCountries;
       _countries.sort();
@@ -75,9 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     var theme = Theme.of(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
     var userViewModel = Provider.of<UserViewModel>(context);
-
-    _age = userViewModel.getUser()?.age.toDouble();
-    _username = userViewModel.getUser()?.username;
 
     return Scaffold(
       appBar: AppBar(
@@ -115,6 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         vertical: 15,
                       ),
                     ),
+                    style: TextStyle(color: Colors.black),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Field is required';
@@ -162,19 +166,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 const SizedBox(height: 10),
 
-                ListTile(
-                  leading: Text("Dark Mode", style: titleStyle),
-                  trailing: Switch(
-                    value: themeProvider.mode == UI_THEME.DARK,
-                    onChanged: (bool newValue) {
-                      if (newValue) {
-                        themeProvider.switchToDarkMode();
-                      } else {
-                        themeProvider.switchToLightMode();
-                      }
-                    },
-                  ),
-                ),
+                themeProvider.mode == UI_THEME.DARK
+                    ? ListTile(
+                        leading: Text(
+                          "Dark Mode",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        trailing: Switch(
+                          value: themeProvider.mode == UI_THEME.DARK,
+                          onChanged: (bool newValue) {
+                            if (newValue) {
+                              themeProvider.switchToDarkMode();
+                            } else {
+                              themeProvider.switchToLightMode();
+                            }
+                          },
+                        ),
+                      )
+                    : ListTile(
+                        leading: Text("Dark Mode", style: titleStyle),
+                        trailing: Switch(
+                          value: themeProvider.mode == UI_THEME.DARK,
+                          onChanged: (bool newValue) {
+                            if (newValue) {
+                              themeProvider.switchToDarkMode();
+                            } else {
+                              themeProvider.switchToLightMode();
+                            }
+                          },
+                        ),
+                      ),
 
                 Center(
                   child: ElevatedButton(

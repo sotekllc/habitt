@@ -22,6 +22,7 @@ Widget buildInputField(
           vertical: 15,
         ),
       ),
+      style: TextStyle(color: Colors.black),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Field is required';
