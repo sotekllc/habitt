@@ -16,6 +16,11 @@ class UserViewModel with ChangeNotifier {
     return this.service.getUser();
   }
 
+  void updateUserDetails(Map<String, dynamic> data) {
+    this.service.updateUserDetails(data);
+    notifyListeners();
+  }
+
   void login(Map<String, dynamic> data) {
     this.service.login(data);
     notifyListeners();

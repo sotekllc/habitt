@@ -26,6 +26,11 @@ abstract class UserRepository {
   User? getUser();
 
   /**
+   * Updating the User with form data represented as a Map.
+   */
+  void updateUserDetails(Map<String, dynamic> data);
+
+  /**
    * Performs user authentication using a username/password.
    * Sets the User object for the service if successful,
    * throws an exception otherwise.
@@ -93,6 +98,10 @@ class LocalStorageUserRepository implements UserRepository {
    */
   User? getUser() {
     return this._user;
+  }
+
+  void updateUserDetails(Map<String, dynamic> data) {
+    this._user = User.fromJson(data);
   }
 
   /**

@@ -7,6 +7,7 @@ import 'package:habitt/habit/home_screen.dart';
 import 'package:habitt/user/country_service.dart';
 import 'package:habitt/user/login_screen.dart';
 import 'package:habitt/theme.dart';
+import 'package:habitt/widgets.dart';
 import 'package:habitt/user/repository.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -60,10 +61,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register(BuildContext context) async {
-    var userRepository = Provider.of<UserViewModel>(context, listen: false);
+    var userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
     try {
-      userRepository.register({
+      userViewModel.register({
         'username': _usernameController.text,
         'age': _age,
         'country': _country,
@@ -129,14 +130,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildInputField(
+                  buildInputField(
                     _usernameController,
                     'Username',
                     Icons.alternate_email,
                     theme,
                   ),
                   const SizedBox(height: 10),
-                  _buildInputField(
+                  buildInputField(
                     _passwordController,
                     'Password',
                     Icons.security_outlined,
@@ -173,12 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: availableHabits.map((habit) {
                       final isSelected = selectedHabits.contains(habit);
                       return GestureDetector(
-                        // TODO
-                        // onTap: () => selectedHabits.add(habit),
                         onTap: () {
-                          print('Adding habit to selectedHabits: $habit');
-                          print('isSelected: $isSelected');
-                          print(selectedHabits);
                           selectedHabits.add(habit);
                         },
                         child: Container(
@@ -238,35 +234,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildInputField(
-    TextEditingController controller,
-    String hint,
-    IconData icon,
-    ThemeData theme,
-  ) {
-    return Container(
-      decoration: formFieldDecoration,
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: theme.primaryColorDark),
-          hintText: hint,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Field is required';
-          }
-          return null;
-        },
       ),
     );
   }
