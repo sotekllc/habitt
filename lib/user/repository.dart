@@ -102,6 +102,7 @@ class LocalStorageUserRepository implements UserRepository {
 
   void updateUserDetails(Map<String, dynamic> data) {
     this._user = User.fromJson(data);
+    _storeUserInStorage();
   }
 
   /**
@@ -209,6 +210,10 @@ class AlwaysFailingUserRepository implements UserRepository {
    */
   User? getUser() {
     return this._user;
+  }
+
+  void updateUserDetails(Map<String, dynamic> data) {
+    throw UnimplementedError('Updating user failed');
   }
 
   void login(Map<String, dynamic> data) {
