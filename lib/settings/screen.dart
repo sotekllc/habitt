@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:habitt/user/view_model.dart';
 import 'package:provider/provider.dart';
 
+import 'package:habitt/user/country_service.dart';
+import 'package:habitt/user/model.dart';
 import 'package:habitt/menu.dart';
 import 'package:habitt/theme.dart';
 import 'package:habitt/theme_provider.dart';
@@ -18,11 +20,11 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   late FToast fToast;
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
+  late TextEditingController _usernameController;
 
-  // bool _isDarkMode = false;
-  double _age = 25; // Default age set to 25
-  String _country = 'United States';
+  double? _age = 25; // Default age set to 25
+  String? _country = 'United States';
+  String? _username = '';
   List<String> _countries = [];
 
   @override
@@ -30,8 +32,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     fToast = FToast();
     fToast.init(context);
-    // var themeProvider = Provider.of<ThemeProvider>(context);
-    // _isDarkMode = themeProvider.mode == UI_THEME.DARK;
+    var userViewModel = Provider.of<UserViewModel>(context, listen: false);
+    _usernameController = new TextEditingController(
+      text: userViewModel.getUser()?.username,
+    );
+    _fetchCountries();
   }
 
   @override
@@ -40,13 +45,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.dispose();
   }
 
+  Future<void> _fetchCountries() async {
+    // TODO
+    //  Bit of a code smell here. But we need a service call that doesn't
+    //  require passing BuildContext.
+    List<String> subsetCountries = InMemoryCountryService().getCountries();
+    setState(() {
+      _countries = subsetCountries;
+      _countries.sort();
+      _country = _countries.isNotEmpty ? _countries[0] : 'United States';
+    });
+  }
+
   void _saveDetails(BuildContext context, Map<String, dynamic> formData) {
     var userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
     try {
       userViewModel.updateUserDetails(formData);
 
-      showToast(fToast, 'User registered, logging in...', Colors.greenAccent);
+      showToast(fToast, 'User details saved', Colors.greenAccent);
     } catch (e) {
       print('Error saving user details: $e');
       showToast(fToast, e.toString(), Colors.redAccent);
@@ -57,6 +74,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var userViewModel = Provider.of<UserViewModel>(context);
+
+    _age = userViewModel.getUser()?.age.toDouble();
+    _username = userViewModel.getUser()?.username;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,17 +99,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                buildInputField(
-                  _usernameController,
-                  'Username',
-                  Icons.alternate_email,
-                  theme,
+                Container(
+                  decoration: formFieldDecoration,
+                  child: TextFormField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.alternate_email,
+                        color: theme.primaryColorDark,
+                      ),
+                      hintText: 'Username',
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field is required';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
 
                 const SizedBox(height: 10),
 
+                themeProvider.mode == UI_THEME.DARK
+                    ? Text(
+                        'Age: ${_age?.round()}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      )
+                    : Text(
+                        'Age: ${_age?.round()}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+
                 Slider(
-                  value: _age,
+                  value: (_age ?? 25.0).toDouble(),
                   min: 21,
                   max: 100,
                   divisions: 79,
@@ -112,19 +167,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: Switch(
                     value: themeProvider.mode == UI_THEME.DARK,
                     onChanged: (bool newValue) {
-                      // setState(() {
-                      //   _isDarkMode = newValue;
-                      // });
-
                       if (newValue) {
                         themeProvider.switchToDarkMode();
                       } else {
                         themeProvider.switchToLightMode();
                       }
-
-                      // setState(() {
-                      //   _isDarkMode = themeProvider.mode == UI_THEME.DARK;
-                      // });
                     },
                   ),
                 ),
@@ -135,8 +182,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       if (_formKey.currentState!.validate()) {
                         Map<String, dynamic> _formData = {
                           'username': _usernameController.text,
-                          'age': _age,
+                          'age': _age?.toInt(),
                           'country': _country,
+                          'password': userViewModel.getUser()?.password,
                         };
                         _saveDetails(context, _formData);
                       }

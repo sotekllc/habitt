@@ -15,10 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double _dragOffsetTodo = 0.0; // how far we’ve dragged
-  double _scaleTodo = 1.0; // scale factor
-  double _dragOffsetCompleted = 0.0; // how far we’ve dragged
-  double _scaleCompleted = 1.0; // scale factor
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: AppSizes.screenPadding,
           child: Column(
             children: [
-              const Text(
-                'HOME SCREEN',
-                style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
 
               Divider(
                 height: 20,
