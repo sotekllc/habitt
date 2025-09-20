@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:habitt/habit/view_model.dart';
 import 'package:habitt/menu.dart';
 import 'package:habitt/theme.dart';
+import 'package:habitt/widgets.dart';
 
 class HabitsFormScreen extends StatefulWidget {
   const HabitsFormScreen({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class _HabitsFormScreenState extends State<HabitsFormScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _buildInputField(
+                buildInputField(
                   _usernameController,
                   'Username',
                   Icons.alternate_email,
@@ -129,35 +130,6 @@ class _HabitsFormScreenState extends State<HabitsFormScreen> {
         ),
       ),
       drawer: menuDrawer(context),
-    );
-  }
-
-  Widget _buildInputField(
-    TextEditingController controller,
-    String hint,
-    IconData icon,
-    ThemeData theme,
-  ) {
-    return Container(
-      decoration: formFieldDecoration,
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: theme.primaryColorDark),
-          hintText: hint,
-          border: OutlineInputBorder(),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
-          ),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Field is required';
-          }
-          return null;
-        },
-      ),
     );
   }
 
