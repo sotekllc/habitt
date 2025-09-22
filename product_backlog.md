@@ -65,7 +65,13 @@ A backlog list of all the user stories that need to be implemented for the habit
     View all habits
         As a user, I want to see both completed and incomplete habits in my report so that I have a comprehensive view of my habit tracking performance.
     Setup local storage repository for pulling 
-    Implement logic for clearing habits each day and storing old habits for reporting (need local storage variable for which day is currently being tracked by app)
+    Implement logic for clearing habits each day and storing old habits for reporting (need local storage variable for which day is currently being tracked by app);
+    when habits are completed, they're given a DateTime completed_dt mark, and stored as reports data
+    so that the "most recent last week" can be pulled for the reports page each time it's opened;
+    home screen Habits when loaded are checked for either NULL or on_today completed_dt values and
+    in the case where we find previously completed Habits on a new day we create a new one for the
+    HabitsRepository; HabitsRepository stores only the current day's habits; ReportsRepsitory stores
+    all habits except for TODO/IN_PROGRESS current day Habits
 
 7. Notification/reminder
     Enable/disable notifications
