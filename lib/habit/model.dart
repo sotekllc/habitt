@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 enum HabitStatus { TODO, COMPLETED, IN_PROGRESS }
 
 enum NotificationType { MORNING, AFTERNOON, EVENING, NONE }
 
 class Habit {
+  final String id;
   final String label;
   final HabitStatus status;
   final Color color;
@@ -23,10 +25,16 @@ class Habit {
     this._completion_dt = completed;
   }
 
-  Habit({required this.label, required this.status, required this.color});
+  Habit({
+    required this.id,
+    required this.label,
+    required this.status,
+    required this.color,
+  });
 
   factory Habit.fromJson(Map<String, dynamic> data) {
     Habit habit = Habit(
+      id: data['id'] ?? Uuid().v4(),
       label: data['label'],
       status: data['status'] != null
           ? HabitStatus.values.byName(data['status'])
@@ -45,6 +53,7 @@ class Habit {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': this.id,
       'label': this.label.toLowerCase(),
       'status': this.status.name,
       'color': this.color.value,
