@@ -15,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -41,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: AppSizes.screenPadding,
           child: Column(
             children: [
-
               Divider(
                 height: 20,
                 thickness: 2,
@@ -76,9 +74,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final habit = habitsViewModel.filterTodoHabits()[index];
-                  return GestureDetector(
-                    onDoubleTap: () {
+                  return Dismissible(
+                    key: Key(habit.label),
+                    // onDoubleTap: () {
+                    //   habitsViewModel.markHabitComplete(habit);
+                    // },
+                    onDismissed: (direction) {
                       habitsViewModel.markHabitComplete(habit);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Habit ${habit.label} completed.'),
+                        ),
+                      );
                     },
                     child: Column(
                       children: [
@@ -130,15 +137,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
+              // TODO
+              //  +filter for CompletedHabits ST completed_dt.day is today
               ListView.builder(
                 itemCount: habitsViewModel.filterCompletedHabits().length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final habit = habitsViewModel.filterCompletedHabits()[index];
-                  return GestureDetector(
-                    onDoubleTap: () {
+                  return Dismissible(
+                    key: Key(habit.label),
+                    onDismissed: (direction) {
                       habitsViewModel.markHabitIncomplete(habit);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Habit ${habit.label} in progress.'),
+                        ),
+                      );
                     },
+                    // onDoubleTap: () {
+                    //   habitsViewModel.markHabitIncomplete(habit);
+                    // },
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
