@@ -3,7 +3,7 @@ import 'package:habitt/habit/home_screen.dart';
 import 'package:habitt/user/login_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'package:habitt/habit/form.dart';
+import 'package:habitt/habit/form_screen.dart';
 import 'package:habitt/notifications/screen.dart';
 import 'package:habitt/reports/screen.dart';
 import 'package:habitt/settings/screen.dart';

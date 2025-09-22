@@ -1,6 +1,8 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:habitt/habit/view_model.dart';
+import 'package:habitt/reports/repository.dart';
+import 'package:habitt/reports/view_model.dart';
 import 'package:habitt/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:localstorage/localstorage.dart';
@@ -34,6 +36,11 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => HabitsViewModel(
             service: LocalStorageHabitsRepository(storage: localStorage),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ReportsViewModel(
+            service: LocalStorageReportsRepository(storage: localStorage),
           ),
         ),
       ],
