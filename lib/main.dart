@@ -52,9 +52,6 @@ class HabittApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Habitt',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      // ),
       builder: FToastBuilder(),
       theme: themeProvider.mode == UI_THEME.DARK ? darkTheme : lightTheme,
       home: Consumer<UserViewModel>(
