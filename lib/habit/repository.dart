@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:localstorage/localstorage.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:habitt/habit/model.dart';
 

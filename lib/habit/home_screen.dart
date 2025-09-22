@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habitt/habit/view_model.dart';
+import 'package:habitt/reports/view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'package:habitt/menu.dart';
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var habitsViewModel = Provider.of<HabitsViewModel>(context);
+    var reportsViewModel = Provider.of<ReportsViewModel>(context);
     var userViewModel = Provider.of<UserViewModel>(context);
 
     var user = userViewModel.getUser();
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: AppSizes.sidePadding,
                 child: Align(
-                  alignment: AlignmentDirectional.centerStart,
+                  alignment: AlignmentDirectional.center,
                   child: Row(
                     children: [
                       Text(
@@ -81,12 +83,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     // },
                     onDismissed: (direction) {
                       habitsViewModel.markHabitComplete(habit);
+                      reportsViewModel.saveCompletedHabit(habit);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Habit ${habit.label} completed.'),
                         ),
                       );
                     },
+                    // Show a red background as the item is swiped away.
+                    background: Container(color: Colors.red),
                     child: Column(
                       children: [
                         const SizedBox(height: 20),
@@ -118,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: AppSizes.sidePadding,
                 child: Align(
-                  alignment: AlignmentDirectional.centerStart,
+                  alignment: AlignmentDirectional.center,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -139,43 +144,52 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // TODO
               //  +filter for CompletedHabits ST completed_dt.day is today
-              ListView.builder(
-                itemCount: habitsViewModel.filterCompletedHabits().length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final habit = habitsViewModel.filterCompletedHabits()[index];
-                  return Dismissible(
-                    key: Key(habit.label),
-                    onDismissed: (direction) {
-                      habitsViewModel.markHabitIncomplete(habit);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Habit ${habit.label} in progress.'),
-                        ),
-                      );
-                    },
-                    // onDoubleTap: () {
-                    //   habitsViewModel.markHabitIncomplete(habit);
-                    // },
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        Container(
-                          color: habit.color,
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: habit.color,
-                            ),
-                            title: Text(habit.label, style: titleStyle),
+              habitsViewModel.filterCompletedHabits().isEmpty
+                  ? Center(
+                      child: Text('Swipe right on a habit to mark as done.'),
+                    )
+                  : ListView.builder(
+                      itemCount: habitsViewModel.filterCompletedHabits().length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final habit = habitsViewModel
+                            .filterCompletedHabits()[index];
+                        return Dismissible(
+                          key: Key(habit.label),
+                          onDismissed: (direction) {
+                            habitsViewModel.markHabitIncomplete(habit);
+                            reportsViewModel.removeCompletedHabit(habit);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Habit ${habit.label} in progress.',
+                                ),
+                              ),
+                            );
+                          },
+                          // Show a red background as the item is swiped away.
+                          background: Container(color: Colors.red),
+                          // onDoubleTap: () {
+                          //   habitsViewModel.markHabitIncomplete(habit);
+                          // },
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              Container(
+                                color: habit.color,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: habit.color,
+                                  ),
+                                  title: Text(habit.label, style: titleStyle),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ],
           ),
         ),
