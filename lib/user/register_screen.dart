@@ -207,6 +207,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _register(context);
+                        } else {
+                          showToast(
+                            fToast,
+                            'Please fill in required fields!',
+                            Colors.redAccent,
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
