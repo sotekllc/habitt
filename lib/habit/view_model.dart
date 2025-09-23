@@ -13,7 +13,6 @@ class HabitsViewModel with ChangeNotifier {
   }
 
   void addHabit(Map<String, dynamic> data) {
-    print('Add Habit: ${data}');
     this.service.addHabit(data);
     notifyListeners();
   }
@@ -32,16 +31,20 @@ class HabitsViewModel with ChangeNotifier {
     this.service.updateHabitStatus(habit, HabitStatus.TODO);
     notifyListeners();
   }
-  
+
   List<Habit> filterTodoHabits() {
     return this.service.habits
         .where((habit) => habit.completion_dt == null)
         .toList();
   }
 
-  List<Habit> filterCompletedHabits() {
+  List<Habit> filterCompletedTodayHabits() {
+    final today = DateTime.now().day;
     return this.service.habits
-        .where((habit) => habit.completion_dt != null)
+        .where(
+          (habit) =>
+              habit.completion_dt != null && habit.completion_dt?.day == today,
+        )
         .toList();
   }
 

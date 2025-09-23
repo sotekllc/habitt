@@ -40,13 +40,38 @@ class LocalStorageHabitsRepository implements HabitsRepository {
   }
 
   void _loadHabitsFromStorage() {
+    List<Habit> _habits = [];
+
     var storedHabits = storage.getItem(STORAGE_KEY);
+
     if (storedHabits != null) {
       var storedHabitsData = json.decode(storedHabits);
-      this.habits = List<Habit>.from(
+      _habits = List<Habit>.from(
         (storedHabitsData as List).map((item) => Habit.fromJson(item)),
       );
     }
+
+    // CHECK: any Habits completed on a day that's not today?
+    //  IFF so, we need to "reset" the stored and completed
+    //  habit(s) so they're tracking today's completions and
+    //  not a previous day's completions.
+    _habits = _habits.map((h) {
+      final dt = h.completion_dt;
+      final today = DateTime.now();
+
+      // True - set completion_dt to null on all habits
+      if (dt != null &&
+          (dt.year != today.year ||
+              dt.month != today.month ||
+              dt.day != today.day)) {
+        h.completion_dt = null;
+      }
+      // False - all stored Habits are for today (;)
+
+      return h;
+    }).toList();
+
+    this.habits = _habits;
   }
 
   void _saveHabitsToStorage() {

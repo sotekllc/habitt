@@ -78,9 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   final habit = habitsViewModel.filterTodoHabits()[index];
                   return Dismissible(
                     key: Key(habit.label),
-                    // onDoubleTap: () {
-                    //   habitsViewModel.markHabitComplete(habit);
-                    // },
                     onDismissed: (direction) {
                       habitsViewModel.markHabitComplete(habit);
                       reportsViewModel.saveCompletedHabit(habit);
@@ -169,9 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           // Show a red background as the item is swiped away.
                           background: Container(color: Colors.red),
-                          // onDoubleTap: () {
-                          //   habitsViewModel.markHabitIncomplete(habit);
-                          // },
                           child: Column(
                             children: [
                               const SizedBox(height: 20),
