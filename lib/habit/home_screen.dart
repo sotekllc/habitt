@@ -140,8 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // TODO
-              //  +filter for CompletedHabits ST completed_dt.day is today
               habitsViewModel.filterCompletedTodayHabits().isEmpty
                   ? Center(
                       child: Text('Swipe right on a habit to mark as done.'),
