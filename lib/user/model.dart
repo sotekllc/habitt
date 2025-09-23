@@ -16,7 +16,7 @@ class User {
   //    logout clears local storage of user data but not sqlite data. Login stores user data in
   //    local storage.
   //
-  //  Implement both starting from an abstract UserRepository class. 
+  //  Implement both starting from an abstract UserRepository class.
   //  Start prototype with only local storage\in-memory persistence.
 
   /**
@@ -24,7 +24,7 @@ class User {
    * storing or using the plaintext user password.
    */
   void set password(String text) {
-    final bytes = utf8.encode(password);
+    final bytes = utf8.encode(text);
     final hash = sha256.convert(bytes);
     this._password = hash.toString();
   }
