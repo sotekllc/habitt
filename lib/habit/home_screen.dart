@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final habit = habitsViewModel
-                      .filterCompletedTodayHabits()[index];
+                      .filterTodoHabits()[index];
                   return Dismissible(
                     key: Key(habit.label),
                     onDismissed: (direction) {

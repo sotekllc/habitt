@@ -29,7 +29,7 @@ void main() async {
           create: (_) => UserViewModel(
             service: LocalStorageUserRepository(
               storage: localStorage,
-              countryService: InMemoryCountryService(),
+              countryService: HttpCountryService(),
             ),
           ),
         ),

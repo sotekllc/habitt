@@ -115,13 +115,12 @@ class LocalStorageUserRepository implements UserRepository {
    * it's a valid user. We check localstorage for any user data to
    * determine if there's a saved login session.
    */
-  void login(Map<String, dynamic> data) {
+  void login(Map<String, dynamic> data) async {
     // No source of truth to validate credentials; we assume valid form
     //  data is valid User data and set the User object and store the
     //  data locally.
-    var randCountryIndex = Random().nextInt(
-      this.countryService.getCountries().length,
-    );
+    List<String> _countries = await this.countryService.getCountries();
+    var randCountryIndex = Random().nextInt(_countries.length);
 
     // With no backend storage and no DB for the LocalStorage implementation,
     //  we have no comparisons to make to login, so we treat any data
@@ -134,7 +133,7 @@ class LocalStorageUserRepository implements UserRepository {
     this._user = User(
       username: data['username'],
       age: Random().nextInt(100) + 18,
-      country: this.countryService.getCountries()[randCountryIndex],
+      country: _countries[randCountryIndex],
     );
     this._user?.password = data['password'];
 

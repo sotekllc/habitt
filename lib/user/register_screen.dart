@@ -52,7 +52,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // TODO
     //  Bit of a code smell here. But we need a service call that doesn't
     //  require passing BuildContext.
-    List<String> subsetCountries = InMemoryCountryService().getCountries();
+    List<String> subsetCountries = await InMemoryCountryService()
+        .getCountries();
     setState(() {
       _countries = subsetCountries;
       _countries.sort();

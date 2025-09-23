@@ -95,6 +95,12 @@ const subtitleStyle = TextStyle(
   fontSize: 12.0,
 );
 
+final errorTextStyle = TextStyle(
+  color: Colors.red,
+  fontWeight: FontWeight.w400,
+  fontSize: 18.0,
+);
+
 final formFieldDecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.circular(30),

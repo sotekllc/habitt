@@ -49,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // TODO
     //  Bit of a code smell here. But we need a service call that doesn't
     //  require passing BuildContext.
-    List<String> subsetCountries = InMemoryCountryService().getCountries();
+    List<String> subsetCountries = await HttpCountryService().getCountries();
 
     var userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
