@@ -75,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: habitsViewModel.filterTodoHabits().length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  final habit = habitsViewModel.filterTodoHabits()[index];
+                  final habit = habitsViewModel
+                      .filterCompletedTodayHabits()[index];
                   return Dismissible(
                     key: Key(habit.label),
                     onDismissed: (direction) {
@@ -141,16 +142,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // TODO
               //  +filter for CompletedHabits ST completed_dt.day is today
-              habitsViewModel.filterCompletedHabits().isEmpty
+              habitsViewModel.filterCompletedTodayHabits().isEmpty
                   ? Center(
                       child: Text('Swipe right on a habit to mark as done.'),
                     )
                   : ListView.builder(
-                      itemCount: habitsViewModel.filterCompletedHabits().length,
+                      itemCount: habitsViewModel
+                          .filterCompletedTodayHabits()
+                          .length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final habit = habitsViewModel
-                            .filterCompletedHabits()[index];
+                            .filterCompletedTodayHabits()[index];
                         return Dismissible(
                           key: Key(habit.label),
                           onDismissed: (direction) {
