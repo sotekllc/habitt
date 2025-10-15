@@ -25,7 +25,7 @@ Rough DDD follows an MVVM (Model-View-ViewModel) pattern using the [provider pac
 
 This project is a mobile app built for iOS and Android platforms. It's a very basic Habit tracking app that includes a weekly report of habits progress. It uses local storage for persistence (which can be expanded upon using the repository contracts) of items and settings, which reload when the app is reloaded and are deleted when the app is deleted.
 
-### Running on a simulator (Macbook)
+### Running on a simulator
 
 Install the following dependencies using the Flutter documentation guide on getting started (you may choose either [android](https://docs.flutter.dev/platform-integration/android/setup) or [iOS](https://docs.flutter.dev/platform-integration/ios/setup) for setup and respectively install either Android Studio or XCode or both):
 
