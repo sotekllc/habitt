@@ -18,21 +18,12 @@ A habit tracking capstone project in Flutter.
 
 ## Architecture
 
-backend\storage? just local?
+Rough DDD follows an MVVM (Model-View-ViewModel) pattern using the [provider package](https://pub.dev/packages/provider) for state management. Separates the logic into three layers and uses repositories for interacting with domain objects.
 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is a mobile app built for iOS and Android platforms. It's a very basic Habit tracking app that includes a weekly report of habits progress. It uses local storage for persistence (which can be expanded upon using the repository contracts) of items and settings, which reload when the app is reloaded and are deleted when the app is deleted.
 
 
 ## Development
