@@ -5,6 +5,7 @@ import 'package:habitt/reports/repository.dart';
 import 'package:habitt/reports/view_model.dart';
 import 'package:habitt/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:localstorage/localstorage.dart';
 
 import 'package:habitt/habit/home_screen.dart';
@@ -18,6 +19,14 @@ import 'package:habitt/user/view_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >()
+      ?.requestNotificationsPermission();
 
   runApp(
     MultiProvider(
